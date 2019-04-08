@@ -22,14 +22,12 @@ function shuffle(arr){
   while(n){
     i=Math.floor(Math.random()*n);
     n--;
-
     //Swap with current item
     t=arr[n];
     arr[n]=arr[i];
     arr[i]=t;
   }
   return arr;
-
 }
 
 class Game{
@@ -39,6 +37,7 @@ class Game{
     this.winningNumber=generateWinningNumber();
     this.direction=[];
     this.temperature=[];
+    this.gameOver=false;
   }
   difference(){
     return Math.abs(this.playersGuess-this.winningNumber);
@@ -53,41 +52,38 @@ class Game{
     }
   }
   checkGuess(){
-    if(this.playersGuess===this.winningNumber){
-      this.pastGuesses.push(this.playersGuess);
-      this.direction.push('-');
-      this.temperature.push('win')
-      return `You Win! The winning number was ${this.winningNumber}`;
-    }
-
     if(this.pastGuesses.includes(this.playersGuess)){
       return 'You have already guessed that number.';
-    }else if(this.pastGuesses.length>=4){
-      this.pastGuesses.push(this.playersGuess);
+    }
+
+    this.pastGuesses.push(this.playersGuess);
+
+    if(this.playersGuess===this.winningNumber){
+      this.temperature.push('win');
+      this.gameOver=true;
+      return `You Win! The winning number was ${this.winningNumber}`;
+    }else if(this.pastGuesses.length>=5){
       this.temperature.push('lose');
-      this.direction.push('');
+      this.gameOver=true;
       return `You Lose. The winning number was ${this.winningNumber}`;
     }else{
       //run isLower to see which direction is needed
       this.isLower();
-      this.pastGuesses.push(this.playersGuess);
-    }
-
-    let currentDifference=this.difference();
-    // console.log(currentDifference)
-
-    if(currentDifference<10){
-      this.temperature.push('hot');
-      return "You're burning up!";
-    }else if(currentDifference<25){
-      this.temperature.push('warm');
-      return "You're lukewarm.";
-    }else if(currentDifference<50){
-      this.temperature.push('chilly');
-      return "You\'re a bit chilly.";
-    }else{
-      this.temperature.push('cold');
-      return "You\'re ice cold!"
+      //check temperature based on difference from guess to winning number
+      let currentDifference=this.difference();
+      if(currentDifference<10){
+        this.temperature.push('hot');
+        return "You're burning up!";
+      }else if(currentDifference<25){
+        this.temperature.push('warm');
+        return "You're lukewarm.";
+      }else if(currentDifference<50){
+        this.temperature.push('chilly');
+        return "You\'re a bit chilly.";
+      }else{
+        this.temperature.push('cold');
+        return "You\'re ice cold!"
+      }
     }
   }
   playersGuessSubmission(num){
@@ -139,12 +135,11 @@ $(document).ready( function() {
     clearGameBoard();
   });
 
-   //hints game
+   //Shows Hint & disables button
    $('.hint-sign').on('click', function() {
     let hints=game.provideHint();
 
-    let message=document.getElementById('hint');
-    message.innerHTML=`The number is either ${hints[0]}, ${hints[1]}, or ${hints[2]}.`;
+    $('.hints').text(`The number is either ${hints[0]}, ${hints[1]}, or ${hints[2]}.`)
     $(this).prop("disabled", true);
   });
 
@@ -158,24 +153,35 @@ $(document).ready( function() {
     let response=game.playersGuessSubmission(userGuess);
 
     //update message to user based on guess
-    let message=document.getElementById('hint');
-    message.innerHTML=response;
+    $('.hints').text(response);
 
-    //clear input field once submit
+    //clear input field once submitted & update fields(arrows, guesses, and temp)
     input.value='';
     updateGuesses();
+    gameOver();
   }
 
 
   function updateGuesses(){
     let numGuesses=game.pastGuesses.length;
-
     for(let i=0;i<numGuesses;i++){
       $(".innerguess")[i].innerHTML=game.pastGuesses[i];
-      //updates arrows to guide guesses
-      $('.direction')[i].innerHTML=game.direction[i];
-      //updates border temperature based on how close guess is to winning num
-      $('.guess')[i].className=`guess ${game.temperature[i]}`
+      //updates border temperature by changing class name
+      $('.guess')[i].className=`guess ${game.temperature[i]}`;
+      if(game.direction[i]!==undefined){
+        //updates arrows to guide guesses
+        $('.direction')[i].innerHTML=game.direction[i];
+      }
+    }
+  }
+
+  function gameOver(){
+    if(game.gameOver){
+      $('.hint-sign').prop("disabled", true);
+      $('.submit-guess').prop("disabled", true);
+      console.log($('.submit-guess')[0].className)
+      $('.submit-guess').addClass('disable');
+      console.log($('.submit-guess')[0].className)
     }
   }
 
@@ -183,8 +189,12 @@ $(document).ready( function() {
     $(".innerguess").text('*')
     $('.direction').text(' ')
     $('.guess').removeClass('cold hot chilly warm win lose');
-    $('.hint-sign').prop("disabled", false);
 
+    $('.submit-guess').prop("disabled", false);
+    $('.submit-guess').removeClass('disable');
+
+    $('.hint-sign').prop("disabled", false);
+    $('.hints').text('Guess a number between 0 & 100')
   }
 
 });

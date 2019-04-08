@@ -157,6 +157,11 @@ h3{
 .lose{
   background-color: rgb(220,20,60);
 }
+.disable{
+  background-color: gray;
+  box-shadow: 0 0 5px black;
+  cursor: default;
+}
 
 .direction{
   width:5px;
