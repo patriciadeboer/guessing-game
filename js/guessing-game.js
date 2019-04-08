@@ -96,10 +96,15 @@ class Game{
     return this.checkGuess(num);
   }
   provideHint(){
-    // let num1=generateWinningNumber();
-    // let num2=generateWinningNumber();
-    //later check to make sure the random numbers aren't same or equal to winning number or any of the players guesses
-    let hintArr=[this.winningNumber,generateWinningNumber(),generateWinningNumber()];
+    let num1=1 ,num2=1;
+
+    //ensure random hint numbers don't equal each other or the winning number
+    while(num1===num2||num1===this.winningNumber||num2===this.winningNumber){
+      num1=generateWinningNumber();
+      num2=generateWinningNumber();
+    }
+
+    let hintArr=[this.winningNumber,num1,num2];
 
     let shuffleArr=shuffle(hintArr);
     return shuffleArr;
@@ -178,10 +183,14 @@ $(document).ready( function() {
   function gameOver(){
     if(game.gameOver){
       $('.hint-sign').prop("disabled", true);
+
       $('.submit-guess').prop("disabled", true);
-      console.log($('.submit-guess')[0].className)
       $('.submit-guess').addClass('disable');
-      console.log($('.submit-guess')[0].className)
+
+      $('.guess-input').prop("disabled",true)
+      let placeholderText=game.winningNumber;
+      $('.guess-input').attr('placeholder',placeholderText);
+
     }
   }
 
@@ -189,6 +198,9 @@ $(document).ready( function() {
     $(".innerguess").text('*')
     $('.direction').text(' ')
     $('.guess').removeClass('cold hot chilly warm win lose');
+
+    $('.guess-input').prop("disabled",false)
+    $('.guess-input').attr('placeholder','#');
 
     $('.submit-guess').prop("disabled", false);
     $('.submit-guess').removeClass('disable');
