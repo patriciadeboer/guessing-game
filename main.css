@@ -1,1 +1,257 @@
-/* Write your CSS code in this file */
+/* Write your CSS code in this file*/
+
+html {
+  background: url(imgs/mountain-full.png) no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+body{
+  text-align:center;
+}
+
+h1{
+  font-family: 'Waiting for the Sunrise', cursive;
+  font-size: 75px;
+  margin-bottom: 2px;
+}
+h3{
+  font-family: 'Waiting for the Sunrise', cursive;
+  font-size: 25px
+}
+
+.map-pin {
+  position: relative;
+  left: 50%;
+
+  margin-left: -60px;
+
+  border-radius: 50% 50% 50% 0;
+  border: 10px solid rgb(0, 89, 111);
+  width: 100px;
+  height: 100px;
+  transform: rotate(-45deg);
+}
+
+/* .guess-input{
+  transform:rotate(45deg);
+  position:absolute;
+  /*Need to find centrer of square
+  right:20px;
+  top:20px;
+  margin-top: -7px;
+  margin-right: -7px;
+  font-size:60px;
+  font-weight: bold;
+  font-family: 'Ubuntu Mono', monospace;
+} */
+
+.guess-input{
+  transform:rotate(45deg);
+  height:100px;
+  width:100px;
+  background: transparent;
+  border:none;
+  font-size:60px;
+  text-align:center;
+  outline:none;
+  font-family: 'Ubuntu Mono', monospace;
+
+}
+
+
+
+
+.submit-guess{
+  margin-top:30px;
+  padding:12px 30px;
+  border-radius: 50%;
+  color:white;
+  background-color: rgb(0, 89, 111);
+  box-shadow: 0 0 5px rgba(81, 203, 238, 1);
+  outline:none;
+  font-family: 'Oswald', san-serif;
+  font-size: 15px;
+  font-weight: bold;
+  cursor:pointer;
+
+  box-shadow: 0 8px 6px -6px  rgba(81, 203, 238, 1);
+    -webkit-box-shadow: 0 8px 6px -6px  rgba(81, 203, 238, 1);
+    -moz-box-shadow: 0 8px 6px -6px  rgba(81, 203, 238, 1);
+
+
+}
+
+
+.guess{
+  margin: 50px 12px;
+  padding: 4px;
+  position:relative;
+
+  background-color: #eae6e6;
+  /* width: 10vw;
+  height: 7vw; */
+  height: 65px;
+  width:100px;
+  object-fit: contain;
+
+  box-shadow:
+    inset 0 5px white,
+    inset 0 -5px #bbb,
+    inset 5px 0 #d7d7d7,
+    inset -5px 0 #d7d7d7;
+
+  border-radius: 10%;
+  display:inline-block;
+  vertical-align: middle;
+}
+.temperature{
+  display: inline-block;
+}
+
+.guess span{
+  line-height: 65px;
+  font-size:40px;
+  font-family: 'Ubuntu Mono', monospace;
+
+  /* Needed as an empty block has no baseline, so the bottom of the span lines up with the baseline of the parent div. The next span, since it has text (and therefore a baseline), lines up the text with the baseline of the div.*/
+  vertical-align: middle;
+}
+
+.chilly{
+  box-shadow:
+  inset 0 5px white,
+  inset 0 -5px rgba(81, 203, 238, 1),
+  inset 5px 0 #d7d7d7,
+  inset -5px 0 #d7d7d7;
+}
+
+.cold{
+  box-shadow:
+  inset 0 5px white,
+  inset 0 -5px blue,
+  inset 5px 0 #d7d7d7,
+  inset -5px 0 #d7d7d7;
+}
+
+.warm{
+  box-shadow:
+  inset 0 5px white,
+  inset 0 -5px rgb(241, 157, 0),
+  inset 5px 0 #d7d7d7,
+  inset -5px 0 #d7d7d7;
+}
+
+.hot{
+  box-shadow:
+  inset 0 5px white,
+  inset 0 -5px rgb(220,20,60),
+  inset 5px 0 #d7d7d7,
+  inset -5px 0 #d7d7d7;
+}
+.win{
+  background-color: rgb(0 ,205,102);
+}
+.lose{
+  background-color: rgb(220,20,60);
+}
+
+.direction{
+  width:5px;
+}
+
+/* Made position relative so pole & signs can be aligned within same parent div */
+.sign{
+  position:relative;
+  height:300px;
+}
+.pole{
+  right:50%;
+  height:300px;
+  width:15px;
+  background-color:rgb(139,69,19);
+  position:absolute;
+
+}
+
+.reset-sign{
+    width: 150px;
+    height: 40px;
+    margin: 15px -15px;
+    left:50%;
+    top:0%;
+    position: absolute;
+    background: 	rgb(255,127,80);
+    line-height: 40px;
+    font-family: 'Waiting for the Sunrise', cursive;
+    font-weight:bold;
+    font-size:20px;
+    cursor:pointer;
+    outline:none;
+    box-shadow:
+    inset 0 0px white,
+    inset 0 -5px rgb(205 ,91,69),
+    inset 0px 0 #d7d7d7,
+    inset 0px 0 #d7d7d7;
+}
+
+.reset-sign:before {
+  content: "";
+  position: absolute;
+  right: -20px;
+  bottom: 0;
+  width: 0;
+  height: 0;
+  border-left: 20px solid 	rgb(255,127,80);
+  border-top: 20px solid transparent;
+  border-bottom: 20px solid transparent;
+}
+
+.hint-sign{
+  width: 150px;
+  height: 40px;
+  margin: 15px -150px;
+  left:50%;
+  top:15%;
+  position: absolute;
+  background: rgb(0,238,118);
+  line-height: 40px;
+  font-family: 'Waiting for the Sunrise', cursive;
+  font-weight:bold;
+  font-size:20px;
+  cursor:pointer;
+  outline:none;
+  box-shadow:
+    inset 0 0px white,
+    inset 0 -5px rgb(0 ,205,102),
+    inset 0px 0 #d7d7d7,
+    inset 0px 0 #d7d7d7;
+}
+
+.hint-sign:after {
+  content: "";
+  position: absolute;
+  left: -20px;
+  bottom: 0;
+  width: 0;
+  height: 0;
+  border-right: 20px solid  rgb(0,238,118);
+  border-top: 20px solid transparent;
+  border-bottom: 20px solid transparent;
+}
+
+@media only screen and (max-width: 750px){
+	.guess {
+	  margin: 50px 10px;
+    padding: 4px;
+    width: 9vw;
+    height: 7vw;
+  }
+  .guess span{
+    line-height:7vw;
+    font-size:1.5em;
+  }
+
+}
